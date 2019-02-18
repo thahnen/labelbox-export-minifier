@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+# TODO: siehe README.md!
+
 import os
 import sys
 import json
-
-
-# TODO: Noch testen, ob die Ordner exported/ und minified/ im CWD existieren!
 
 
 def minify(path, isdir=False) -> int:
@@ -48,7 +47,7 @@ def minify(path, isdir=False) -> int:
                 if key not in labels:
                     del data[i][key]
         
-        file_out_name = os.getcwd() + "/minified/" + file.split("/")[-1].split(".json")[0] + ".min.json"
+        file_out_name = os.getcwd() + "/minified/" + data[0]["Project Name"] + ".min.json"
         print(f"Output-Datei: {file_out_name}\n")
         
         with open(file_out_name, "w") as json_out:

@@ -105,3 +105,8 @@ venv.bak/
 
 # Visual Studio Code
 .vscode/*
+
+# JSON-Dateien (bis auf das Beispiel)
+*.json
+!.exported/export-2019-02-18T12_17_42.775Z.json
+!.minified/DVS_HGH 01.min.json
