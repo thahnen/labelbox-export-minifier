@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-# TODO: siehe README.md!
-
 import os
 import sys
 import json
@@ -18,6 +16,9 @@ def minify(path, isdir=False) -> int:
                 os.path.isfile(os.path.join(path, n)) and n.endswith(".json")
             )
         ]
+
+        if len(files) == 0:
+            return 2
     else:
         files = [path]
 
@@ -56,17 +57,19 @@ def minify(path, isdir=False) -> int:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Es muss der zu minimierende JSON-Export angegeben werden!")
+        print("Es muss der zu minimierende JSON-Export angegeben werden!\n")
     elif len(sys.argv) > 2:
-        print("Nur eine JSON-Datei angeben oder ein ganzes Verzeichnis!")
-
-    path = sys.argv[1]
-    if os.path.isdir(path):
-        status = minify(path, True)
-    elif os.path.isfile(path) and not os.path.isdir(path):
-        status = minify(path)
-    
-    if status == 1:
-        print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+        print("Nur eine JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
     else:
-        print("Die Datei(en) wurden minimiert!\n")
+        path = sys.argv[1]
+        if os.path.isdir(path):
+            status = minify(path, True)
+        elif os.path.isfile(path) and not os.path.isdir(path):
+            status = minify(path)
+        
+        if status == 1:
+            print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+        elif status == 2:
+            print("Es wurden keine JSON-Dateien gefunden!\n")
+        else:
+            print("Die Datei(en) wurden minimiert!\n")
