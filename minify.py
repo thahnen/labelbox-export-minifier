@@ -6,7 +6,7 @@ import sys
 import json
 
 
-def minify(path, isdir=False) -> int:
+def minify(path :str, isdir :bool = False) -> int:
     # Die Elemente, die wir behalten wollen:
     labels = ["Label", "Project Name", "External ID"]
 
@@ -39,7 +39,6 @@ def minify(path, isdir=False) -> int:
                 ]))
             )
         except error as e:
-            #print(f"Verantwortlicher Fehler: {e}")
             return 1
         
         for i in range(len(data)):
@@ -48,7 +47,7 @@ def minify(path, isdir=False) -> int:
                 if key not in labels:
                     del data[i][key]
         
-        file_out_name = os.getcwd() + "/minified/" + data[0]["Project Name"] + ".min.json"
+        file_out_name :str = os.getcwd() + "/minified/" + data[0]["Project Name"] + ".min.json"
         print(f"Output-Datei: {file_out_name}\n")
         
         with open(file_out_name, "w") as json_out:
@@ -61,11 +60,11 @@ if __name__ == "__main__":
     elif len(sys.argv) > 2:
         print("Nur eine JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
     else:
-        path = sys.argv[1]
+        path :str = sys.argv[1]
         if os.path.isdir(path):
-            status = minify(path, True)
+            status :int = minify(path, True)
         elif os.path.isfile(path) and not os.path.isdir(path):
-            status = minify(path)
+            status :int = minify(path)
         
         if status == 1:
             print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")

@@ -2,10 +2,10 @@
 
 ---
 
-##minify.py:
+## minify.py:
 Minifies the exported JSON from Labelbox.
 
-##standardize.py:
+## standardize.py:
 Standardisiert die X/Y-Koordinaten auf 0-767 bzw 0-639.
 Setzt ausserdem nichtgesetzte Klassen auf einen Standard-Wert!
 

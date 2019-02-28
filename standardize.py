@@ -6,15 +6,15 @@ import sys
 import json
 
 
-def standardize(path, isdir=False):
-    BREITE = 768
-    HOEHE = 640
+def standardize(path :str, isdir :bool = False) -> int:
+    BREITE :int = 768
+    HOEHE :int = 640
     # Die Standard-Klasse kann ggf. variieren
-    STANDARD_KLASSE = "anders"
+    STANDARD_KLASSE :str = "anders"
 
-    pics = 0
-    objects = 0
-    labels_not_set = 0
+    pics :int = 0
+    objects :int = 0
+    labels_not_set :int = 0
 
     if isdir:
         files = [
@@ -79,11 +79,11 @@ if __name__ == "__main__":
     elif len(sys.argv) > 2:
         print("Nur eine minimierte JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
     else:
-        path = sys.argv[1]
+        path :str = sys.argv[1]
         if os.path.isdir(path):
-            status = standardize(path, True)
+            status :int = standardize(path, True)
         elif os.path.isfile(path) and not os.path.isdir(path):
-            status = standardize(path)
+            status :int = standardize(path)
         
         if status == 1:
             print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
