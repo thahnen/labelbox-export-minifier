@@ -9,12 +9,8 @@ import json
 def standardize(path :str, isdir :bool = False) -> int:
     BREITE :int = 768
     HOEHE :int = 640
-    # Die Standard-Klasse kann ggf. variieren
-    STANDARD_KLASSE :str = "anders"
-
-    pics :int = 0
-    objects :int = 0
-    labels_not_set :int = 0
+    # Die Klasse für ein Objekt, was man bei Labelbox NICHT erkannt hat
+    STANDARD_KLASSE :str = "nicht-erkannt"
 
     if isdir:
         files = [
@@ -29,6 +25,10 @@ def standardize(path :str, isdir :bool = False) -> int:
         files = [path]
 
     for file in files:
+        pics :int = 0
+        objects :int = 0
+        labels_not_set :int = 0
+
         try:
             data = json.load(open(file))
         except error as e:
@@ -43,8 +43,10 @@ def standardize(path :str, isdir :bool = False) -> int:
                     for obj in data[i][key]["object"]:
                         objects += 1
 
-                        if "klasse" not in obj or obj["klasse"] == None:
-                            obj["klasse"] = STANDARD_KLASSE
+                        #if "klasse" not in obj or obj["klasse"] == None:
+                        if "label-klasse" not in obj or obj["label-klasse"] == None:
+                            #obj["klasse"] = STANDARD_KLASSE
+                            obj["label-klasse"] = STANDARD_KLASSE
                             labels_not_set += 1
                             print(f"Klasse nicht gesetzt: {file} => [{i}] => Label-Objekt[{data[i][key]['object'].index(obj)}]")
 
@@ -76,8 +78,10 @@ def standardize(path :str, isdir :bool = False) -> int:
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Es muss der zu standardisierende (und bereits minimierte!) JSON-Export angegeben werden!\n")
+        exit(1)
     elif len(sys.argv) > 2:
         print("Nur eine minimierte JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
+        exit(1)
     else:
         path :str = sys.argv[1]
         if os.path.isdir(path):
@@ -87,7 +91,10 @@ if __name__ == "__main__":
         
         if status == 1:
             print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+            exit(1)
         elif status == 2:
             print("Es wurden keine JSON-Dateien gefunden!\n")
+            exit(1)
         else:
             print("Die Datei(en) wurden standardisiert!\n")
+                

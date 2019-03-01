@@ -57,8 +57,10 @@ def minify(path :str, isdir :bool = False) -> int:
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Es muss der zu minimierende JSON-Export angegeben werden!\n")
+        exit(1)
     elif len(sys.argv) > 2:
         print("Nur eine JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
+        exit(1)
     else:
         path :str = sys.argv[1]
         if os.path.isdir(path):
@@ -68,7 +70,10 @@ if __name__ == "__main__":
         
         if status == 1:
             print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+            exit(1)
         elif status == 2:
             print("Es wurden keine JSON-Dateien gefunden!\n")
+            exit(1)
         else:
             print("Die Datei(en) wurden minimiert!\n")
+                
