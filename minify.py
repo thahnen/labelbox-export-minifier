@@ -47,7 +47,7 @@ def minify(path :str, isdir :bool = False) -> int:
                 if key not in labels:
                     del data[i][key]
         
-        file_out_name :str = os.getcwd() + "/minified/" + data[0]["Project Name"] + ".min.json"
+        file_out_name :str = os.getcwd() + "/minified/" + data[0]["Project Name"].replace(" ", "_") + ".min.json"
         print(f"Output-Datei: {file_out_name}\n")
         
         with open(file_out_name, "w") as json_out:

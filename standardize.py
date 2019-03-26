@@ -6,6 +6,9 @@ import sys
 import json
 
 
+## hier liegt noch irgendwo ein Fehler!
+
+
 def standardize(path :str, isdir :bool = False) -> int:
     BREITE :int = 768
     HOEHE :int = 640
@@ -43,9 +46,7 @@ def standardize(path :str, isdir :bool = False) -> int:
                     for obj in data[i][key]["object"]:
                         objects += 1
 
-                        #if "klasse" not in obj or obj["klasse"] == None:
                         if "label-klasse" not in obj or obj["label-klasse"] == None:
-                            #obj["klasse"] = STANDARD_KLASSE
                             obj["label-klasse"] = STANDARD_KLASSE
                             labels_not_set += 1
                             print(f"Klasse nicht gesetzt: {file} => [{i}] => Label-Objekt[{data[i][key]['object'].index(obj)}]")
