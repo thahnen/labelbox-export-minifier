@@ -37,11 +37,20 @@ def standardize(path :str, isdir :bool = False) -> int:
         except error as e:
             return 1
         
+        # Liste aller Indizes, die geloescht werden koennen weil geskippt!
+        marked_to_delete = []
+
         for i in range(len(data)):
             keys = [key for key in data[i]]
             for key in keys:
                 if key == "Label":
                     pics += 1
+
+                    # Skip wird eingetragen, wenn in Labelbox geskippt wurde (aka kein Label gefunden/ fehlerhaftes geloescht)
+                    if data[i][key] == "Skip":
+                        print(f"Geskippter Frame {i}")
+                        marked_to_delete.append(i)
+                        break
 
                     for obj in data[i][key]["object"]:
                         objects += 1
@@ -70,6 +79,10 @@ def standardize(path :str, isdir :bool = False) -> int:
                                 coords["y"] = 0
                                 print(f"Y-Koordinate: {file} => [{i}] => Label-Objekt[{data[i][key]['object'].index(obj)}]: {alt} zu {coords['y']}")
         
+        # Reverse for through data!
+        for i in reversed(marked_to_delete):
+            del data[i]
+
         print(f"\nDatei: {file}\n{pics} Bilder bearbeitet, {objects} Objekte gefunden, wobei {labels_not_set} nicht gelabelt! (~{round(labels_not_set/objects*100, 3)}% fehlerhaft!)\n")
 
         with open(file, "w") as json_out:

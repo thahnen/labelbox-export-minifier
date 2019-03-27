@@ -19,13 +19,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-## Bis auf weiteres faellt das hier weg weil ein Fehler im Python-Skript ist!
 ## Standardisierung der minimierten JSON-Dateien
-##python3 standardize.py $FOLDER_PATH/minified/ >/dev/null 2>&1
-##if [ $? -ne 0 ]; then
-##    echo "Standardisierung der JSON-Dateien nicht erfolgreich!"
-##    exit 1
-##fi
+python3 standardize.py $FOLDER_PATH/minified/ >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Standardisierung der JSON-Dateien nicht erfolgreich!"
+    exit 1
+fi
 
 echo "Minimierung/ Standardisierung erfolgreich abgeschlossen!"
 read -n 1 -p "Nach $LABELBOX_PATH kopieren (y|n): " ANSWER
