@@ -6,16 +6,13 @@ import sys
 import json
 
 
-## hier liegt noch irgendwo ein Fehler!
-
-
-def standardize(path :str, isdir :bool = False) -> int:
+def standardize(path :str) -> int:
     BREITE :int = 768
     HOEHE :int = 640
     # Die Klasse für ein Objekt, was man bei Labelbox NICHT erkannt hat
     STANDARD_KLASSE :str = "nicht-erkannt"
 
-    if isdir:
+    if os.path.isdir(path):
         files = [
             path+n for n in os.listdir(path) if (
                 os.path.isfile(os.path.join(path, n)) and n.endswith(".min.json")
@@ -34,7 +31,7 @@ def standardize(path :str, isdir :bool = False) -> int:
 
         try:
             data = json.load(open(file))
-        except error as e:
+        except Exception as e:
             return 1
         
         # Liste aller Indizes, die geloescht werden koennen weil geskippt!
@@ -83,32 +80,28 @@ def standardize(path :str, isdir :bool = False) -> int:
         for i in reversed(marked_to_delete):
             del data[i]
 
-        print(f"\nDatei: {file}\n{pics} Bilder bearbeitet, {objects} Objekte gefunden, wobei {labels_not_set} nicht gelabelt! (~{round(labels_not_set/objects*100, 3)}% fehlerhaft!)\n")
+        print(f"\nDatei: {file}\n{pics} Bilder bearbeitet, {objects} Objekte gefunden => {labels_not_set} nicht gelabelt! (~{round(labels_not_set/objects*100, 3)}% fehlerhaft!)\n")
 
         with open(file, "w") as json_out:
             json.dump(data, json_out)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Es muss der zu standardisierende (und bereits minimierte!) JSON-Export angegeben werden!\n")
-        exit(1)
-    elif len(sys.argv) > 2:
-        print("Nur eine minimierte JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
-        exit(1)
-    else:
+    if len(sys.argv) == 2:
         path :str = sys.argv[1]
-        if os.path.isdir(path):
-            status :int = standardize(path, True)
-        elif os.path.isfile(path) and not os.path.isdir(path):
+        if os.path.exists(path):
             status :int = standardize(path)
-        
-        if status == 1:
-            print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
-            exit(1)
-        elif status == 2:
-            print("Es wurden keine JSON-Dateien gefunden!\n")
-            exit(1)
+
+            if status == 1:
+                print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+                exit(1)
+            elif status == 2:
+                print("Es wurden keine JSON-Dateien gefunden!\n")
+                exit(1)
+            else:
+                print("Die Datei(en) wurden standardisiert!\n")
         else:
-            print("Die Datei(en) wurden standardisiert!\n")
-                
+            print("Bei dem angegebenen Pfad handelt es sich weder um eine Datei noch um ein Verzeichnis!\n")
+    else:
+        print("Es muss der zu standardisierende (und bereits minimierte!) JSON-Export angegeben werden! Nur eine Datei oder ein ganzes Verzeichnis!\n")
+        exit(1)

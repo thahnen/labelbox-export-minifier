@@ -6,11 +6,11 @@ import sys
 import json
 
 
-def minify(path :str, isdir :bool = False) -> int:
+def minify(path :str) -> int:
     # Die Elemente, die wir behalten wollen:
     labels = ["Label", "Project Name", "External ID"]
 
-    if isdir:
+    if os.path.isdir(path):
         files = [
             path+n for n in os.listdir(path) if (
                 os.path.isfile(os.path.join(path, n)) and n.endswith(".json")
@@ -29,8 +29,7 @@ def minify(path :str, isdir :bool = False) -> int:
             data = json.load(open(file))
 
             # Überprüfen, ob Liste vorliegt (so normal von Labelbox) und gefüllt
-            assert(type(data) == list)
-            assert(len(data) > 0)
+            assert(type(data) == list and len(data) > 0)
 
             # Überprüfen, ob all die Elemente, die drin bleiben sollen drin sind!
             assert(
@@ -38,7 +37,7 @@ def minify(path :str, isdir :bool = False) -> int:
                     key for key in data[0]
                 ]))
             )
-        except error as e:
+        except Exception as e:
             return 1
         
         for i in range(len(data)):
@@ -55,25 +54,21 @@ def minify(path :str, isdir :bool = False) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Es muss der zu minimierende JSON-Export angegeben werden!\n")
-        exit(1)
-    elif len(sys.argv) > 2:
-        print("Nur eine JSON-Datei angeben oder ein ganzes Verzeichnis!\n")
-        exit(1)
-    else:
+    if len(sys.argv) == 2:
         path :str = sys.argv[1]
-        if os.path.isdir(path):
-            status :int = minify(path, True)
-        elif os.path.isfile(path) and not os.path.isdir(path):
+        if os.path.exists(path):
             status :int = minify(path)
-        
-        if status == 1:
-            print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
-            exit(1)
-        elif status == 2:
-            print("Es wurden keine JSON-Dateien gefunden!\n")
-            exit(1)
+
+            if status == 1:
+                print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
+                exit(1)
+            elif status == 2:
+                print("Es wurden keine JSON-Dateien gefunden!\n")
+                exit(1)
+            else:
+                print("Die Datei(en) wurden minimiert!\n")
         else:
-            print("Die Datei(en) wurden minimiert!\n")
-                
+            print("Bei dem angegebenen Pfad handelt es sich weder um eine Datei noch um ein Verzeichnis!\n")
+    else:
+        print("Es muss der zu minimierende JSON-Export angegeben werden! Nur eine Datei oder ein ganzes Verzeichnis!\n")
+        exit(1)

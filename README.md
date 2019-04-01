@@ -1,29 +1,14 @@
 # labelbox-export-minifier
-
 ---
 
 ## minify.py:
 Minifies the exported JSON from Labelbox.
-
-### Input-JSON muss wie folgt aussehen:
-'''json
-{
-    "ich komme noch" : "spaeter"
-}
-'''
 
 ---
 
 ## standardize.py:
 Standardisiert die X/Y-Koordinaten auf 0-767 bzw 0-639.
 Setzt ausserdem nichtgesetzte Klassen auf einen Standard-Wert!
-
-### Input-JSON muss wie folgt aussehen:
-'''json
-{
-    "ich komme noch" : "spaeter"
-}
-'''
 
 ---
 
