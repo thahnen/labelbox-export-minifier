@@ -45,7 +45,6 @@ def standardize(path :str) -> int:
 
                     # Skip wird eingetragen, wenn in Labelbox geskippt wurde (aka kein Label gefunden/ fehlerhaftes geloescht)
                     if data[i][key] == "Skip":
-                        print(f"Geskippter Frame {i}")
                         marked_to_delete.append(i)
                         break
 
@@ -81,6 +80,7 @@ def standardize(path :str) -> int:
             del data[i]
 
         print(f"\nDatei: {file}\n{pics} Bilder bearbeitet, {objects} Objekte gefunden => {labels_not_set} nicht gelabelt! (~{round(labels_not_set/objects*100, 3)}% fehlerhaft!)\n")
+        print(f"Anzahl geskippter Frames: {len(marked_to_delete)}")
 
         with open(file, "w") as json_out:
             json.dump(data, json_out)

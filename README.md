@@ -19,7 +19,5 @@ Danach wird abgefragt, ob man die Daten auch in den Labelbox-Ordner auf dem NAS 
 ---
 
 ## TODO
-1. Test auf *exported* und *minified* Verzeichnisse
+1. Test auf *exported* und *minified* Verzeichnisse (in minify.py nur noch)
 2. ggf anderes Output-Directory!
-3. fuers Standardisieren eine einheitliche Bezeichnung für die Label-Klasse haben!
-4. auf nicht vergebene Label achten! diese auf einen anderen Wert setzen, damit sie gefunden werden können!
