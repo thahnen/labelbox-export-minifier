@@ -28,7 +28,7 @@ fi
 
 ## Rechtevergabe zurueck auf den Benutzer, damit man das im Nachinein nicht haendisch machen muss
 FOLDER_OWNER=$(stat -c '%U' $FOLDER_PATH)
-chown FOLDER_OWNER $FOLDER_PATH/minified/*
+chown $FOLDER_OWNER $FOLDER_PATH/minified/*
 if [ $? -ne 0 ]; then
     echo "Rechtevergabe auf den Nutzer nicht moeglich, muesste haendisch gemacht werden!"
 fi
@@ -37,10 +37,8 @@ echo "Minimierung/ Standardisierung erfolgreich abgeschlossen!"
 read -n 1 -p "Nach $LABELBOX_PATH kopieren (y|n): " ANSWER
 case $ANSWER in
 	N|n)    echo ""
-            exit
-            ;;
-	*)		echo ""
-            ;;
+            exit;;
+	*)		echo "";;
 esac
 
 ## Testen, ob Labelbox-Ordner auf /data/ vorhanden!
@@ -74,7 +72,7 @@ fi
 
 ## Rechtevergabe zurueck auf den Benutzer, damit man das im Nachinein nicht haendisch machen muss
 FOLDER_OWNER=$(stat -c '%U' $LB_JSON_PATH)
-chown FOLDER_OWNER $LB_JSON_PATH/*
+chown $FOLDER_OWNER $LB_JSON_PATH/*
 if [ $? -ne 0 ]; then
     echo "Rechtevergabe auf den Nutzer nicht moeglich, muesste haendisch gemacht werden!"
 fi
