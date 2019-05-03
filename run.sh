@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+## TODO: Test auf die Verzeichnisse, ob sie auch existieren etc.
+
 ## Um auf /data/ Veraenderungen vorzunehmen, muss man Root sein!
 if [ "$( id -u )" != "0" ]; then
 	echo "Skript muss als Root ausgeführt werden!" 1>&2

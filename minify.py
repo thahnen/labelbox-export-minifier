@@ -61,14 +61,15 @@ if __name__ == "__main__":
 
             if status == 1:
                 print("Es ist irgendein Fehler mit der Verarbeitung aufgetreten!\n")
-                exit(1)
             elif status == 2:
                 print("Es wurden keine JSON-Dateien gefunden!\n")
-                exit(1)
             else:
                 print("Die Datei(en) wurden minimiert!\n")
+                exit(0)
         else:
             print("Bei dem angegebenen Pfad handelt es sich weder um eine Datei noch um ein Verzeichnis!\n")
     else:
         print("Es muss der zu minimierende JSON-Export angegeben werden! Nur eine Datei oder ein ganzes Verzeichnis!\n")
-        exit(1)
+    
+    # For every possible Fail
+    exit(1)

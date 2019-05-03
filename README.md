@@ -3,21 +3,22 @@
 
 ## minify.py:
 Minifies the exported JSON from Labelbox.
+Deletes useless information, mostly doubles and timestamps etc.
 
 ---
 
 ## standardize.py:
-Standardisiert die X/Y-Koordinaten auf 0-767 bzw 0-639.
-Setzt ausserdem nichtgesetzte Klassen auf einen Standard-Wert!
+Standardizes the X/Y-coordinates onto 0-767 (for X) and 0-639 (for Y).
+Also looks for missing classes and adds a standard value.
 
 ---
 
 ## run.sh
-Bash-Script, dass alle vorhandenen JSON-Dateien minimiert und standardisiert.
-Danach wird abgefragt, ob man die Daten auch in den Labelbox-Ordner auf dem NAS kopieren will!
+Bash-script for minifying and standardizing (using the python scripts).
+Afterwards the data gets copied to the NAS if said so.
 
 ---
 
 ## TODO
 1. Test auf *exported* und *minified* Verzeichnisse (in minify.py nur noch)
-2. ggf anderes Output-Directory!
+2. parallelisieren der Minimierung/ Standardisierung!
